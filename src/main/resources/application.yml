@@ -1,0 +1,17 @@
+
+server:
+  port: 8080
+spring:
+  datasource:
+    url : jdbc:postgresql:url
+    username : username
+    password : password
+    driver-class-name : org.postgresql.Driver
+    max_pool_size : 32
+    initial_pool_size : 4
+    min_pool_size : 4
+    max_statements : 32
+    max_statements_per_connection : 256
+    max_idle_time : 64
+
+

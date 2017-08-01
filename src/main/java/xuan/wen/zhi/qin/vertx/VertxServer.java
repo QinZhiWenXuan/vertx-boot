@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import xuan.wen.zhi.qin.vertx.services.FailureHandler;
+import xuan.wen.zhi.qin.vertx.handler.FailureHandler;
 
 @Component
 public class VertxServer extends AbstractVerticle {

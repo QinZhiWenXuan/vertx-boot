@@ -1,0 +1,5 @@
+{
+  "query": "SELECT *  FROM category",
+  "pager": "SELECT COUNT(*) AS total  FROM category",
+  "save": "INSERT INTO category(id ,version ,category_name) VALUES (? ,? ,?)"
+}

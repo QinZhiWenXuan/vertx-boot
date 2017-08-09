@@ -1,0 +1,5 @@
+{
+  "query": "SELECT *  FROM t_role",
+  "pager": "SELECT COUNT(*) AS total  FROM t_role",
+  "save" : "INSERT INTO t_role(version, role_type, role_description, role_name)VALUES (?, ?, ?, ?)"
+}

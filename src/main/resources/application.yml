@@ -3,7 +3,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url : jdbc:postgresql:url
+    url : jdbc:postgresql://url
     username : username
     password : password
     driver-class-name : org.postgresql.Driver
@@ -13,5 +13,23 @@ spring:
     max_statements : 32
     max_statements_per_connection : 256
     max_idle_time : 64
+## druid
+    filters : stat
+    maxActive : 32
+    initialSize : 8
+    maxWait : 60000
+    minIdle : 8
+    timeBetweenEvictionRunsMillis : 60000
+    minEvictableIdleTimeMillis : 300000
+    validationQuery : select 'x'
+    testWhileIdle : true
+    testOnBorrow : false
+    testOnReturn : false
+    poolPreparedStatements : true
+    maxOpenPreparedStatements : 20
+    removeAbandonedTimeout : 128
 
-
+vertx :
+   worker :
+      poolSize : 16
+      maxExecuteTime : 120000

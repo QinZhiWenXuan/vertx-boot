@@ -1,5 +1,6 @@
 {
   "query": "SELECT *  FROM category",
   "pager": "SELECT COUNT(*) AS total  FROM category",
-  "save": "INSERT INTO category(id ,version ,category_name) VALUES (? ,? ,?)"
+  "save": "INSERT INTO category(id ,version ,category_name) VALUES (? ,? ,?)",
+  "insert": "INSERT INTO category(id ,version ,category_name) VALUES (:id ,:version ,:categoryName)"
 }

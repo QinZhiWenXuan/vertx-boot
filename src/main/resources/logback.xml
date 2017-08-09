@@ -24,9 +24,6 @@
 
     <logger name="logback"/>
     <logger name="org.springframework" level="INFO"/>
-    <logger name="io.vertx" level="INFO"/>
-    <logger name="io.netty" level="INFO"/>
-
     <root level="INFO">
         <appender-ref ref="consoleAppender"/>
         <appender-ref ref="dailyRollingFileAppender"/>

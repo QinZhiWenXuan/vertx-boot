@@ -14,17 +14,17 @@ public class FailureHandler {
     private ResponseHandler responseHandler;
 
     public void httpFailureHandler(RoutingContext failureHandler) {
-        int statusCode = failureHandler.statusCode() ;
-        if (statusCode != 200) {
-            logger.error("httpFailureHandler : {}", statusCode);
-            failureHandler.response().setStatusCode(failureHandler.statusCode()).end();
-            return;
-        }
         Throwable failure = failureHandler.failure();
         if (null != failure) {
             JsonObject error = new JsonObject().put("code", 500).put("message", "Internal Server Error : " + failure.getLocalizedMessage());
             logger.error("http error :", failure);
             responseHandler.response(failureHandler.response(), error.toString());
+            return;
+        }
+        int statusCode = failureHandler.statusCode();
+        if (statusCode != 200) {
+            logger.error("httpFailureHandler : {}", statusCode);
+            failureHandler.response().setStatusCode(failureHandler.statusCode()).end();
             return;
         }
     }

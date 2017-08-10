@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class ResponseHandler {
@@ -24,9 +25,14 @@ public class ResponseHandler {
     }
 
     public void response(HttpServerResponse response, String json) {
-        logger.debug("response \t", json);
+        logger.info("response \t{}", json);
         if (!response.ended()) {
-            response.putHeader(CONTENT_TYPE, APPLICATION_JSON).end(Buffer.buffer(json));
+            response.putHeader(CONTENT_TYPE, APPLICATION_JSON);
+            if (StringUtils.hasLength(json)) {
+                response.end(Buffer.buffer(json));
+            } else {
+                response.end();
+            }
         }
         return;
     }

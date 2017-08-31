@@ -20,6 +20,7 @@ public class CategoryController extends VertxController {
         this.router.get("/category/all").handler(this::all);
         this.router.get("/category/get").handler(this::get);
         this.router.get("/vertx/publish").handler(this::publish);
+        this.router.get("/vertx/send").handler(this::send);
         this.consumer();
 
     }
@@ -52,9 +53,28 @@ public class CategoryController extends VertxController {
         super.response(routingContext.response(), null);
     }
 
+    private void send(RoutingContext routingContext) {
+        new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                eventBusFactory.createEventBus().send("news-feed", "some-news" + i, fn -> {
+                    if (fn.succeeded()) {
+                        System.err.println("reply\t" + fn.result().body());
+                    }
+                });
+            }
+        }).start();
+        super.response(routingContext.response(), null);
+    }
+
     private void consumer() {
         eventBusFactory.createEventBus().consumer("news-feed", consumer -> {
             System.err.println("consumer\t" + consumer.body().toString());
+            consumer.reply("consumer over");
         });
     }
 }

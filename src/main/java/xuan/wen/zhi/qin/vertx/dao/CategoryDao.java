@@ -4,6 +4,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.sql.SQLConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xuan.wen.zhi.qin.core.vertx.jdbc.VertxDao;
@@ -33,12 +34,18 @@ public class CategoryDao {
     public void pager(HttpServerResponse response, Handler<String> event) {
         vertxDao.getConnection(response, fn -> {
             vertxDao.query(fn, categorySql.getString("pager"), response, pager -> {
-                vertxDao.query(fn, categorySql.getString("query"), response, result -> {
-                    JsonObject json = new JsonObject().put("list", result.getRows()).put("total", pager.getRows().get(0));
-                    vertxDao.commit(fn, response, commit -> {
-                        event.handle(json.toString());
-                    });
+                this.query(fn, response, result -> {
+                    JsonObject json = new JsonObject().put("list", new JsonArray(result)).put("total", pager.getRows().get(0));
+                    event.handle(json.toString());
                 });
+            });
+        });
+    }
+
+    public void query(SQLConnection connection, HttpServerResponse response, Handler<String> event) {
+        vertxDao.query(connection, categorySql.getString("query"), response, result -> {
+            vertxDao.commit(connection, response, commit -> {
+                event.handle(result.getRows().toString());
             });
         });
     }
